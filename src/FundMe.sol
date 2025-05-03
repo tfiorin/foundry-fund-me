@@ -104,11 +104,11 @@ contract FundMe {
         }
     }
 
-    function getVersion() public view returns (uint256) {
-        return priceFeed.version();
-    }
-
     function getOwner() public view returns (address) {
         return i_owner;
+    }
+
+    function getVersion() public view returns (uint256) {
+        return priceFeed.version();
     }
 }
