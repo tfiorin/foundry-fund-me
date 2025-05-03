@@ -56,10 +56,6 @@ contract FundMe {
         emit Funded(msg.sender, msg.value);
     }
 
-    function getVersion() public view returns (uint256) {
-        return priceFeed.version();
-    }
-
     function withdraw() public onlyOwner {
         uint256 totalToWithdraw = 0;
 
@@ -106,6 +102,10 @@ contract FundMe {
         } else {
             emit Withdrawn(amountToWithdraw, block.timestamp);
         }
+    }
+
+    function getVersion() public view returns (uint256) {
+        return priceFeed.version();
     }
 
     function getOwner() public view returns (address) {
