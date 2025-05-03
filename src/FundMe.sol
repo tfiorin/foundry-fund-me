@@ -22,17 +22,25 @@ contract FundMe {
     event Funded(address indexed funder, uint256 amount);
     event Withdrawn(uint256 amount, uint256 timestamp);
 
-    constructor(address _priceFeed) {
-        i_owner = payable(msg.sender);
-        priceFeed = AggregatorV3Interface(_priceFeed);
-    }
-
     modifier onlyOwner() {
         //require(msg.sender == i_owner, "Caller is not the contract's deployer!");
         if (msg.sender != i_owner) {
             revert NotOwner();
         }
         _;
+    }
+
+    constructor(address _priceFeed) {
+        i_owner = payable(msg.sender);
+        priceFeed = AggregatorV3Interface(_priceFeed);
+    }
+
+    receive() external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
     }
 
     function fund() public payable {
@@ -102,13 +110,5 @@ contract FundMe {
 
     function getOwner() public view returns (address) {
         return i_owner;
-    }
-
-    receive() external payable {
-        fund();
-    }
-
-    fallback() external payable {
-        fund();
     }
 }
